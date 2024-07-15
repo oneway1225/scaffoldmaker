@@ -622,12 +622,28 @@ class HermiteNodeLayoutManager:
         self._nodeLayout6Way12_d3Defined = HermiteNodeLayout(
             [[1.0, 0.0, 0.0], [1.0, 1.0, 0.0], [0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [-1.0, -1.0, 0.0], [0.0, -1.0, 0.0],
              [0.0, 0.0, -1.0], [0.0, 0.0, 1.0]])
+        self._nodeLayout6WayTriplePointTop = HermiteNodeLayout(
+            [[1.0, 0.0, 0.0], [-1.0, -1.0, 0.0], [0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0],
+             [0.0, 0.0, -1.0],
+             [1.0, 1.0, 1.0]])
+        self._nodeLayout6WayTriplePointBottom = HermiteNodeLayout(
+            [[1.0, 0.0, 0.0], [-1.0, -1.0, 0.0], [0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0],
+             [0.0, 0.0, 1.0],
+             [1.0, 1.0, -1.0]])
         self._nodeLayout8Way12 = HermiteNodeLayout(
             [[1.0, 0.0], [1.0, 1.0], [0.0, 1.0], [-1.0, 1.0], [-1.0, 0.0], [-1.0, -1.0], [0.0, -1.0], [1.0, -1.0]])
         self._nodeLayout8Way12_d3Defined = HermiteNodeLayout(
             [[1.0, 0.0, 0.0], [1.0, 1.0, 0.0], [0.0, 1.0, 0.0], [-1.0, 1.0, 0.0],
              [-1.0, 0.0, 0.0], [-1.0, -1.0, 0.0], [0.0, -1.0, 0.0], [1.0, -1.0, 0.0],
              [0.0, 0.0, -1.0], [0.0, 0.0, 1.0]])
+        self._nodeLayoutTriplePointTopLeft = HermiteNodeLayout(
+            [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0], [-1.0, 0.0, 1.0]])
+        self._nodeLayoutTriplePointTopRight = HermiteNodeLayout(
+            [[-1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0], [1.0, 0.0, 1.0]])
+        self._nodeLayoutTriplePointBottomLeft = HermiteNodeLayout(
+            [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, 1.0], [-1.0, 0.0, -1.0]])
+        self._nodeLayoutTriplePointBottomRight = HermiteNodeLayout(
+            [[-1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, -1.0]])
 
     def getNodeLayoutRegularPermuted(self, d3Defined, limitDirections=None):
         """
@@ -661,6 +677,24 @@ class HermiteNodeLayoutManager:
         """
         return self._nodeLayout8Way12_d3Defined if d3Defined else self._nodeLayout8Way12
 
+    def getNodeLayoutTriplePoint(self):
+        """
+        Get node layout for triple-point corners of core box elements. There are four corners (Top Left, Top Right,
+        Bottom Left, and Bottom Right) each with its specific node layout.
+        :return: HermiteNodeLayout.
+        """
+        nodeLayouts = [self._nodeLayoutTriplePointTopLeft, self._nodeLayoutTriplePointTopRight,
+                       self._nodeLayoutTriplePointBottomLeft, self._nodeLayoutTriplePointBottomRight]
+        return nodeLayouts
+
+    def getNodeLayout6WayTriplePoint(self):
+        """
+        Get node layout for a special case where a node is located at both 6-way junction and one of the triple-point
+        corners of core box elements. There are two corners (Top, and Bottom) each with its specific node layout.
+        :return: HermiteNodeLayout.
+        """
+        nodeLayouts = [self._nodeLayout6WayTriplePointTop, self._nodeLayout6WayTriplePointBottom]
+        return nodeLayouts
 
 def determineCubicHermiteSerendipityEft(mesh, nodeParameters, nodeLayouts):
     """
